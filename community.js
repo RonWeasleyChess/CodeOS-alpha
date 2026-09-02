@@ -4804,6 +4804,51 @@ function createCommunityProjectCard(post, options = {}) {
 
 async function loadCommunityProjectPosts() {
     try {
+
+        // Make sure Firebase Auth has a user before reading RTDB.
+        if (!auth.currentUser) {
+
+            console.log(
+                "Project discovery waiting for Firebase authentication..."
+            );
+
+            await new Promise((resolve) => {
+
+                const unsubscribe = onAuthStateChanged(
+                    auth,
+                    (user) => {
+
+                        unsubscribe();
+
+                        resolve(user);
+
+                    }
+                );
+
+            });
+
+        }
+
+        // Still not signed in.
+        if (!auth.currentUser) {
+
+            console.log(
+                "Project discovery skipped: no authenticated user."
+            );
+
+            communityProjectPosts = [];
+
+            renderProjectDiscovery();
+
+            return;
+
+        }
+
+        console.log(
+            "Project discovery authenticated as:",
+            auth.currentUser.uid
+        );
+
         const snapshot = await get(
             ref(db, "posts")
         );
@@ -4820,33 +4865,42 @@ async function loadCommunityProjectPosts() {
         communityProjectPosts = [];
 
         if (!snapshot.exists()) {
+
             renderProjectDiscovery();
+
             return;
+
         }
 
-        snapshot.forEach(child => {
+        snapshot.forEach((child) => {
+
             const post = {
                 id: child.key,
                 ...child.val()
             };
 
             if (post.type === "project") {
+
                 const mod =
                     moderation[post.id] || {};
 
                 post.moderation = mod;
 
                 communityProjectPosts.push(post);
+
             }
+
         });
 
         renderProjectDiscovery();
 
     } catch (error) {
+
         console.error(
             "Project discovery error:",
             error
         );
+
     }
 }
 
