@@ -2,7 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/fireba
 
 import {
     getAuth,
-    GoogleAuthProvider
+    GoogleAuthProvider,
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 import {
