@@ -41,7 +41,8 @@ export {
     app,
     auth,
     db,
-    googleProvider
+    googleProvider,
+    onAuthStateChanged
 };
 
 window.codeosFirebase = {
