@@ -2,6 +2,7 @@ import {
     auth,
     db,
     googleProvider,
+    onAuthStateChanged
 } from "./firebase.js";
 
 import {
@@ -9,7 +10,6 @@ import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     signOut,
-    onAuthStateChanged,
     deleteUser
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
