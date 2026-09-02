@@ -1,7 +1,8 @@
 import {
     auth,
     db,
-    googleProvider
+    googleProvider,
+    onAuthStateChanged
 } from "./firebase.js";
 
 import {
